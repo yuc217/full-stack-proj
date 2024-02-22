@@ -23,9 +23,11 @@ sequenceDiagram
     server-->>browser: [{ "content": "zzz", "date": "2024-02-22T08:06:59.502Z" }, ... ]
     deactivate server
 
+    browser->>browser: user input / click save
+
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
     activate server
-    server-->>browser: new message {content: "x", date: "2024-02-22T19:01:38.502Z"}
+    server-->>browser: status code 201, no redirect, JS fetch
     deactivate server
     
 ```
