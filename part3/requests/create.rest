@@ -1,0 +1,9 @@
+# POST http://localhost:3001/api/persons
+
+POST https://part3-front-end.fly.dev/api/persons
+Content-Type: application/json
+
+{
+  "name": "cyc",
+  "number": "12345"
+}
