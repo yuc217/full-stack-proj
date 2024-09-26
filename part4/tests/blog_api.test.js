@@ -24,23 +24,15 @@ const initialBlogs = [
     }
 ]
 
-let header
-
 beforeEach(async () => {
     await Blog.deleteMany({})
     await User.deleteMany({})
-    await api.post('/api/users').send(listHelper.initialUsers[0])
     let blogObject = new Blog(initialBlogs[0])
     await blogObject.save()
     blogObject = new Blog(initialBlogs[1])
     await blogObject.save()
-
-    const res = await api
-        .post('/api/login')
-        .send({ username: listHelper.initialUsers[0].username, password: listHelper.initialUsers[0].password })
-        .expect(200)
-    header = { Authorization: `Bearer ${res.body.token}` }
 })
+
 
 describe.only('Test GET functionality', () => {
     test.only('blogs are returned as JSON', async () => {
@@ -67,6 +59,13 @@ describe.only('Test GET functionality', () => {
 
 describe('Test POST functionality', () => {
     test('add a valid blog', async () => {
+        await api.post('/api/users').send(listHelper.initialUsers[0])
+        const res = await api
+            .post('/api/login')
+            .send({ username: listHelper.initialUsers[0].username, password: listHelper.initialUsers[0].password })
+            .expect(200)
+        const header = { Authorization: `Bearer ${res.body.token}` }
+
         const before = await api.get('/api/blogs')
         const lenBefore = before.body.length
         await api
@@ -86,7 +85,12 @@ describe('Test POST functionality', () => {
     })
 
     test('if the likes property is missing, defaults to 0', async () => {
-
+        await api.post('/api/users').send(listHelper.initialUsers[0])
+        const res = await api
+            .post('/api/login')
+            .send({ username: listHelper.initialUsers[0].username, password: listHelper.initialUsers[0].password })
+            .expect(200)
+        const header = { Authorization: `Bearer ${res.body.token}` }
         const response = await api
             .post('/api/blogs')
             .send({ title: 'New Blog Post', author: 'Cool', url: 'https://cool.com/' })
@@ -99,6 +103,12 @@ describe('Test POST functionality', () => {
     })
 
     test('if the title or url are missing, the backend sends 400', async () => {
+        await api.post('/api/users').send(listHelper.initialUsers[0])
+        const res = await api
+            .post('/api/login')
+            .send({ username: listHelper.initialUsers[0].username, password: listHelper.initialUsers[0].password })
+            .expect(200)
+        const header = { Authorization: `Bearer ${res.body.token}` }
         const newBlog = {
             author: 'Invalid Post'
         }
@@ -121,7 +131,12 @@ describe('Test POST functionality', () => {
 
 describe.only('Test DELETE functionality', () => {
     test.only('successfully deletes a blog with a valid ID', async () => {
-    
+        await api.post('/api/users').send(listHelper.initialUsers[0])
+        const res = await api
+            .post('/api/login')
+            .send({ username: listHelper.initialUsers[0].username, password: listHelper.initialUsers[0].password })
+            .expect(200)
+        const header = { Authorization: `Bearer ${res.body.token}` }
         // add a blog for deletion
         const blogToDelete = {
             title: 'delete',
@@ -148,6 +163,12 @@ describe.only('Test DELETE functionality', () => {
     })
 
     test('responds with 404 if blog does not exist', async () => {
+        await api.post('/api/users').send(listHelper.initialUsers[0])
+        const res = await api
+            .post('/api/login')
+            .send({ username: listHelper.initialUsers[0].username, password: listHelper.initialUsers[0].password })
+            .expect(200)
+        const header = { Authorization: `Bearer ${res.body.token}` }
         const id = '666666b329e53c4d2d222222'
         await api
             .delete(`/api/blogs/${id}`)
@@ -156,6 +177,12 @@ describe.only('Test DELETE functionality', () => {
     })
 
     test('responds with 400 if ID is invalid', async () => {
+        await api.post('/api/users').send(listHelper.initialUsers[0])
+        const res = await api
+            .post('/api/login')
+            .send({ username: listHelper.initialUsers[0].username, password: listHelper.initialUsers[0].password })
+            .expect(200)
+        const header = { Authorization: `Bearer ${res.body.token}` }
         const id = 'xxxxx111'
         await api
             .delete(`/api/blogs/${id}`)

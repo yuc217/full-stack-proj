@@ -1,13 +1,17 @@
-# part4 exercise 4.1 - 
+# part4 exercise 4.1 - 4.23
 
 blog post backend with tests and helper functions
 
 refactoring using controller/model/utils/test rather than a huge index.js
 
-User login, Authorization token
+User login, Authorization token Bearer
+
+http://localhost:3003/api/users  show users with blogs created under the user
+http://localhost:3003/api/blogs  show blogs with user info
 
 npm test -- --test-only
 npm run dev
+
 
 TEST blog_api: 
 
@@ -65,6 +69,7 @@ TEST list_helper:
 ▶ mostLikes (1.603039ms)
 
 TEST user_api:
+
 ▶ Test POST - adding new user
   ✔ users are returned as json (431.476327ms)
   ✔ a valid user can be added (218.832898ms)
