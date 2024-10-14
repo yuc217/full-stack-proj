@@ -214,7 +214,7 @@ describe('Test PUT (update) functionality', () => {
         // Check likes
         const afterUpdate = await api.get('/api/blogs')
         const updatedBlog = afterUpdate.body.find(b => b.id === updateBlog.id)
-        assert.strictEqual(updatedBlog.likes, 1001)
+        assert.strictEqual(updatedBlog.likes, 1000)
     })
 
     test('responds with 404 if id does not exist already', async () => {
