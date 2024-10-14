@@ -21,14 +21,17 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   if (!body.title || !body.url) {
     return response.status(400).json({ error: 'title or url missing' })
   }
-  const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes || 0,
-    user: user._id
-  })
-
+  // const blog = new Blog({
+  //   title: body.title,
+  //   author: body.author,
+  //   url: body.url,
+  //   likes: body.likes || 0,
+  //   user: user._id
+  // })
+  const blog = new Blog(request.body)
+  blog.likes = blog.likes | 0
+  blog.user = user
+  
   const savedBlog = await blog.save()
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
@@ -39,6 +42,7 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
 blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
   // delete only by the user who added it
   const user = request.user
+  console.log(request.user) 
   try {
     const blog = await Blog.findById(request.params.id)
 
@@ -77,9 +81,9 @@ blogsRouter.put('/:id', async (request, response) => {
         title: body.title,
         author: body.author,
         url: body.url,
-        likes: body.likes,
+        likes: body.likes
       }
-      const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+      const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true }).populate('user', { username: 1, name: 1 }) 
       response.json(updatedBlog)
     }
     else {
