@@ -3,38 +3,38 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
   {
-    "username": "pour",
-    "name": "User One",
-    "password": "pour"
+    "username": "cai",
+    "name": "User two",
+    "password": "cai"
   }
 
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvdXIiLCJpZCI6IjY2ZjUyYWNkNGIzZTY1MDhmY2ZjN2VjNyIsImlhdCI6MTcyNzM3MDc5MywiZXhwIjoxNzI3Mzc0MzkzfQ.esNCD7DlzaATx6UBhEPUPTuTxr2ToVPjwQOvQA58Was
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNhaSIsImlkIjoiNjcwY2NiZTUzZGNmYmFhMjhmODEzN2ZkIiwiaWF0IjoxNzI4ODkxODk4LCJleHAiOjE3Mjg4OTU0OTh9.zCF-UoIpInz2sshDGoY57_TCYMAe0LhCOVPadkii1fQ
 
 {
-  "title": "pour",
-  "author": "pour",
-  "url": "http://www.pour.com",
-  "likes": 23
+  "title": "The Tiny THing",
+  "author": "Tina Tiny",
+  "url": "http://www.pssddddfseee.com",
+  "likes": 26
 }
 
 POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-  "username": "pour",
-  "password": "pour"
+  "username": "cai",
+  "password": "cai"
 }
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvdXIiLCJpZCI6IjY2ZjUyYWNkNGIzZTY1MDhmY2ZjN2VjNyIsImlhdCI6MTcyNzM3MDc5MywiZXhwIjoxNzI3Mzc0MzkzfQ.esNCD7DlzaATx6UBhEPUPTuTxr2ToVPjwQOvQA58Was
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvdXIiLCJpZCI6IjY2ZjUyYWNkNGIzZTY1MDhmY2ZjN2VjNyIsImlhdCI6MTcyODg5MTc4NCwiZXhwIjoxNzI4ODk1Mzg0fQ.v3eAsdK7jIvzkQnBqpgLN1wL1qrDQilg8Ckb_oRVADM
 
 {
-  "title": "Finutalk",
-  "author": "sec",
+  "title": "test title 2",
+  "author": "author 354456",
   "url": "http://www.sec.com",
-  "likes": 998
+  "likes": 575
 }
