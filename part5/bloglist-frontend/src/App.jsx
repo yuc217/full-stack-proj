@@ -64,7 +64,9 @@ const App = () => {
 
     try {
       const returnedBlog = await blogService.update(blog.id, blog)
-      setBlogs(blogs.map(b => b.id === blog.id ? returnedBlog : b))
+      setBlogs(blogs
+        .map(b => b.id === blog.id ? returnedBlog : b)
+        .sort((a, b) => b.likes - a.likes)) // dynamically displaying sorted blogs
     } catch (error) {
       console.log('Error updating blog:', error.message)
     }
@@ -128,7 +130,7 @@ const App = () => {
       <Notification message={notif.message} type={notif.type} />
       <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
         <p>{user.name} logged in</p>
-        <button onClick={handleLogout}>log out</button>
+        <button onClick={handleLogout}>logout</button>
       </div>
 
       <Togglable buttonLabel='create new blog' ref={blogFormRef}>
