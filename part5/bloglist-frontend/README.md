@@ -7,7 +7,7 @@ proxy setting in vite config file
 
 add login component, saving token to local storage, logout and clearing storage
 
-create tests, and playwright tests
+create tests, and playwright tests under 'playwright-tests/tests/login.test.js'
 
  ✓ tests/Blog.test.jsx (3) 421ms
  ✓ tests/BlogForm.test.jsx (1) 821ms
@@ -17,8 +17,8 @@ create tests, and playwright tests
 
 npm test            
 
-> playwright@1.0.0 test
-> playwright test
+playwright@1.0.0 test
+playwright test
 
 Running 8 tests using 1 worker
 
