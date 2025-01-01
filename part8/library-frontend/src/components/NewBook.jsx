@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { ALL_BOOKS, ALL_AUTHORS, ADD_BOOK, BOOKS_BY_GENRE } from '../queries'
+
+
 const NewBook = (props, token) => {
 
   const [title, setTitle] = useState('')
@@ -9,9 +11,17 @@ const NewBook = (props, token) => {
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
 
-  const [addBook] = useMutation(ADD_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]
- 
+  // const [addBook] = useMutation(ADD_BOOK, {
+  //   refetchQueries: [{ query: ALL_BOOKS, variables: { genre: null } }, { query: ALL_AUTHORS }],
+  
+  //     onCompleted: () => {
+  //       setPage('books')
+  //     },
+  //     update: (cache, response) => {
+  //       const addedBook = response.data.addBook
+  //       updateCacheWith(addedBook, cache)
+  //     },
+  //   })
     // update: (cache, response) => {
     //   cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
     //     return {
@@ -26,44 +36,77 @@ const NewBook = (props, token) => {
     //   })
     // },
 
-  })
 
 
-// const [addBook] = useMutation(ADD_BOOK, {
-//   update: (cache, { data: { addBook } }) => {
+
+const [addBook] = useMutation(ADD_BOOK, {
+  refetchQueries: [{ query: ALL_BOOKS, variables: { genre: null } }, { query: ALL_AUTHORS }],
+  update: (cache, { data: { addBook } }) => {
  
-//     const { allBooks } = cache.readQuery({ query: ALL_BOOKS });
-//     cache.writeQuery({
-//       query: ALL_BOOKS,
-//       data: { allBooks: [...allBooks, addBook] },
-//     });
+    const existingBooks = cache.readQuery({ query: ALL_BOOKS });
+    const newBooks = {
+      allBooks: [...existingBooks.allBooks, addBook],
+    };
+    cache.writeQuery({ query: ALL_BOOKS, data: newBooks });
 
-//     addBook.genres.forEach((genre) => {
-//       const genreBooks = cache.readQuery({
-//         query: BOOKS_BY_GENRE,
-//         variables: { genre },
-//       });
-//       cache.writeQuery({
-//         query: BOOKS_BY_GENRE,
-//         variables: { genre },
-//         data: {
-//           allBooks: [...genreBooks.allBooks, addBook],
-//         },
-//       });
-//     });
+    addBook.genres.forEach((genre) => {
+      const genreBooks = cache.readQuery({
+        query: BOOKS_BY_GENRE,
+        variables: { genre },
+      });
+      if (genreBooks) {
+        cache.writeQuery({
+          query: BOOKS_BY_GENRE,
+          variables: { genre },
+          data: {
+            allBooks: [...genreBooks.allBooks, addBook],
+          },
+        });
+      } else {
+        cache.writeQuery({
+          query: BOOKS_BY_GENRE,
+          variables: { genre },
+          data: {
+            allBooks: [addBook],
+          },
+        });
+      }
+    });
+  }
+  // update: (cache, { data: { addBook } }) => {
+ 
+  //   const { allBooks } = cache.readQuery({ query: ALL_BOOKS });
+  //   cache.writeQuery({
+  //     query: ALL_BOOKS,
+  //     data: { allBooks: [...allBooks, addBook] },
+  //   });
 
-//     const { allAuthors } = cache.readQuery({ query: ALL_AUTHORS });
-//     const authorExists = allAuthors.some(
-//       (author) => author.name === addBook.author.name
-//     );
-//     if (!authorExists) {
-//       cache.writeQuery({
-//         query: ALL_AUTHORS,
-//         data: { allAuthors: [...allAuthors, addBook.author] },
-//       })
-//     }
-//   },
-// });
+  //   addBook.genres.forEach((genre) => {
+  //     const genreBooks = cache.readQuery({
+  //       query: BOOKS_BY_GENRE,
+  //       variables: { genre },
+  //     });
+  //     cache.writeQuery({
+  //       query: BOOKS_BY_GENRE,
+  //       variables: { genre },
+  //       data: {
+  //         allBooks: [...genreBooks.allBooks, addBook],
+  //       },
+  //     });
+  //   });
+
+    // const { allAuthors } = cache.readQuery({ query: ALL_AUTHORS });
+    // const authorExists = allAuthors.some(
+    //   (author) => author.name === addBook.author.name
+    // );
+    // if (!authorExists) {
+    //   cache.writeQuery({
+    //     query: ALL_AUTHORS,
+    //     data: { allAuthors: [...allAuthors, addBook.author] },
+    //   })
+    // }
+  // },
+})
 
 
   if (!props.show) {
