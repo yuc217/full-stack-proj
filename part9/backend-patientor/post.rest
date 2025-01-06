@@ -1,0 +1,10 @@
+post http://localhost:3001/api/patients 
+Content-Type: application/json
+
+    {
+        "name": "Mat Loccllak",
+        "dateOfBirth": "1991-01-09",
+        "ssn": "111111-8890",
+        "gender": "male",
+        "occupation": "Vigilante"
+    }
