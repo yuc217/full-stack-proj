@@ -1,0 +1,25 @@
+services:
+  app:
+    image: patient-front
+    build:
+      context: ./patientor
+      dockerfile: Dockerfile 
+
+  server:
+    image: patient-back
+    build:
+      context: ./backend-patientor
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: reverse-proxy
+    depends_on:
+      - app 
+      - server
